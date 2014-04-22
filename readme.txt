@@ -1,3 +1,7 @@
+This is a TypeScript project using FlashDevelop for windows as the IDE.
+To build manually, run:
+	"%APPDATA%\npm\tsc.cmd" @build.tsc
+
 To get TypeScript running with this project:
 
 1. Install Node.js from http://nodejs.org
