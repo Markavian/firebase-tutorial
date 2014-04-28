@@ -26,7 +26,7 @@ class Main extends Core.View
 			
 		this.nameref = new FirebaseModel("sharedName");
 		this.name = new Core.View('div');
-		this.input = new UI.TextInput("Some input");
+		this.input = new UI.TextInput("Enter new value");
 		
 		this.add(this.name);
 		this.add(this.input);
