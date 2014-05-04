@@ -9,10 +9,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-ftp-deploy');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
 	  
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+	
 	"shell": {
       "build typescript tests": {
 		command: "tsc.cmd @build_tests.tsc"
@@ -21,6 +23,21 @@ module.exports = function(grunt) {
 		command: "tsc.cmd @build.tsc"
 	  }
     },
+	
+    "jasmine" : {
+      "firebase tutorial template": {
+        src: 'bin/tests/**/*.js',
+        options: {
+          specs: 'specs/*Spec.js',
+          helpers: 'specs/helpers/*Helper.js',
+		  vendor: [
+		    'https://cdn.firebase.com/js/client/1.0.11/firebase.js',
+			'https://cdn.firebase.com/js/simple-login/1.4.1/firebase-simple-login.js'
+		  ]
+        }
+	  }
+	},
+	
 	"uglify": {
 	  options: {
 		banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -36,6 +53,7 @@ module.exports = function(grunt) {
 		}
 	  }
     },
+	
 	"ftp-deploy": {
 	  build: {
 	    auth: {
@@ -47,10 +65,11 @@ module.exports = function(grunt) {
 	    dest: FTP_PATH,
 	    exclusions: []
 	  }
-	},
+	}
+	
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['shell', 'uglify', 'ftp-deploy']);
+  grunt.registerTask('default', ['shell', 'uglify', 'jasmine', 'ftp-deploy']);
 
 };
