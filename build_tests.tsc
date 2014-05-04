@@ -1,0 +1,5 @@
+ --out
+ "bin/tests/firebase-tests.js"
+ "src/com/firebase/firebase-tests.ts"
+ "src/com/firebase/firebase-simplelogin-tests.ts"
+ 

@@ -1,0 +1,7 @@
+/* grunt-ftp-deploy access details : save this file as .ftppass and enter details */
+{
+  "grunt": {
+    "username": "user",
+    "password": "secret"
+  }
+}
