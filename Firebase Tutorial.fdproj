@@ -26,7 +26,8 @@
     <hidden path="obj" />
   </hiddenPaths>
   <!-- Executed before build -->
-  <preBuildCommand>"%APPDATA%\npm\tsc.cmd" @build.tsc</preBuildCommand>
+  <preBuildCommand>"%APPDATA%\npm\tsc.cmd" @build.tsc
+"%APPDATA%\npm\tsc.cmd" @build_tests.tsc</preBuildCommand>
   <!-- Executed after build -->
   <postBuildCommand alwaysRun="False" />
   <!-- Other project options -->

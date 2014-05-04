@@ -3,7 +3,7 @@
 
 class FirebaseModel extends Core.Model
 {
-	static BASE_URL = "https://aqwtblod5tn.firebaseio-demo.com/";
+	static BASE_URL;
 	
 	key: string;
 	firebaseRef: Firebase;

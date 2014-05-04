@@ -6,6 +6,8 @@ class Main extends Core.View
 {
 	static main():void 
 	{
+		FirebaseModel.BASE_URL = "https://aqwtblod5tn.firebaseio-demo.com/";
+		
 		var main = new Main();
 	}
 	
