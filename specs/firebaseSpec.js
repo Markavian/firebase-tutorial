@@ -48,13 +48,34 @@ describe("Firebase ", function() {
 	});
 
 	describe("transaction()", function() {
-		it("should be able to increment the rank of Fred by 1", function() {
-			pending();
+		var result;
+		
+		describe("incrementing counters", function() {
+			beforeEach(function(done) {
+				result = firebaseTests.doTransactionTest(done);
+			});
+			
+			it("should be able to increment the rank of Fred by 1", function(done) {
+				expect(result.committed).toBe(true);
+				expect(result.payload).toBe(12);
+				done();
+			});
 		});
-
-		it("should try to create a user for wilma, but only if the user id 'wilma' isn't already taken.", function() {
-			pending();
+		
+		describe("adding wilma", function() {
+			beforeEach(function(done) {
+				firebaseTests.doRemoveUser("wilma");
+				result = firebaseTests.doAddUser("wilma", done);
+			});
+			
+			it("should be able to create a new user named wilma", function(done) {
+				expect(result.message).toBe("Creating entry for user wilma");
+				expect(result.committed).toBe(true);
+				expect(result.payload.name.first).toBe("Test wilma");
+				done();
+			});
 		});
+		
 	});
 
 	describe("add_child()", function() {

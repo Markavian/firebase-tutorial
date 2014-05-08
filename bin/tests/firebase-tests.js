@@ -40,6 +40,71 @@ var FirebaseTests = (function () {
 
         return firstNameRef.toString();
     };
+
+    FirebaseTests.prototype.doTransactionTest = function (done) {
+        var result = {};
+
+        var fredRankRef = this.dataRef.child('users/fred/rank');
+        fredRankRef.set(11);
+
+        fredRankRef.transaction(function (currentRank) {
+            // the useful work
+            return currentRank + 1;
+        }, function (error, committed, snapshot) {
+            // the result of the transaction
+            result.error = error;
+            result.committed = committed;
+            result.payload = snapshot.val();
+            done();
+        });
+
+        return result;
+    };
+
+    FirebaseTests.prototype.doRemoveUser = function (name, done) {
+        var result = {};
+
+        var userRef = this.dataRef.child('users/' + name);
+        userRef.remove(function (error) {
+            if (error) {
+                console.log(error);
+                result.error = error;
+            }
+
+            if (done) {
+                done();
+            }
+
+            result.success = true;
+        });
+
+        return result;
+    };
+
+    FirebaseTests.prototype.doAddUser = function (name, done) {
+        var result = {};
+
+        var userRef = this.dataRef.child('users/' + name);
+
+        userRef.transaction(function (currentData) {
+            // attempt to create the user, based on existing information
+            if (currentData === null) {
+                result.message = "Creating entry for user " + name;
+                return { name: { first: 'Test ' + name, last: 'Flintstone' } };
+            } else {
+                result.message = "User " + name + " already exists";
+                return;
+            }
+        }, function (error, committed, snapshot) {
+            // the result of the transaction
+            result.error = error;
+            result.committed = committed;
+            result.payload = snapshot.val();
+            done();
+        });
+
+        return result;
+    };
     return FirebaseTests;
 })();
 

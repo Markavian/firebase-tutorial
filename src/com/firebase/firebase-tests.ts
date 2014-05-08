@@ -45,6 +45,77 @@ class FirebaseTests {
 		
 		return firstNameRef.toString(); // should return this.baseUrl + '/usrs/fred/name/first';
 	}
+	
+	doTransactionTest(done) {
+		var result:any = {};
+		
+		var fredRankRef:Firebase = this.dataRef.child('users/fred/rank');
+		fredRankRef.set(11);
+		
+		fredRankRef.transaction(
+			function(currentRank:number) {
+				// the useful work
+				return currentRank + 1;
+			},
+			function(error: any, committed: boolean, snapshot: IFirebaseDataSnapshot) {
+				// the result of the transaction
+				result.error = error;
+				result.committed = committed;
+				result.payload = snapshot.val();
+				done();
+			}
+		);
+		
+		return result;
+	}
+	
+	doRemoveUser(name, done) {
+		var result:any = {};
+		
+		var userRef:Firebase = this.dataRef.child('users/' + name);
+		userRef.remove(function(error: any) {
+			if(error) {
+				console.log(error);
+				result.error = error;
+			}
+			
+			if(done) {
+				done();
+			}
+			
+			result.success = true;
+		});
+		
+		return result;
+	}
+	
+	doAddUser(name, done) {
+		var result:any = {};
+		
+		var userRef:Firebase = this.dataRef.child('users/' + name);
+		
+		userRef.transaction(
+			function(currentData) {
+				// attempt to create the user, based on existing information
+				if (currentData === null) {
+					result.message = "Creating entry for user " + name;
+					return { name: {first: 'Test ' + name, last: 'Flintstone'} };
+				} else {
+					result.message = "User " + name + " already exists";
+					return; // Abort the transaction.
+				}
+			},
+			function(error: any, committed: boolean, snapshot: IFirebaseDataSnapshot) {
+				// the result of the transaction
+				result.error = error;
+				result.committed = committed;
+				result.payload = snapshot.val();
+				done();
+			}
+		);
+		
+		return result;
+	}
 }
 
 function firebase_tests() {
