@@ -17,10 +17,10 @@ module.exports = function(grunt) {
 	
 	"shell": {
       "build typescript tests": {
-		command: "tsc.cmd @build_tests.tsc"
+		command: "tsc @build_tests.tsc"
 	  },
 	  "build typescript tutorial": {
-		command: "tsc.cmd @build.tsc"
+		command: "tsc @build.tsc"
 	  }
     },
 	
